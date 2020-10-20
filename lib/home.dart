@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import './transaction.dart';
+import 'package:flutter_max_personal_expenses/widget/transacton_list.dart';
+import 'package:flutter_max_personal_expenses/model/transaction.dart';
+import 'package:intl/intl.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -16,27 +18,50 @@ class _MyHomePageState extends State<MyHomePage> {
     Transacton(
         id: 4, title: 'Visual Studio Code', amount: 13.7, date: DateTime.now()),
   ];
-
+String titleInput ;
+String amountInput ;
   @override
   Widget build(BuildContext context) {
-    transacton
-        .map((e) => {
-              Card(
-                child: Text(e.title),
-              ),
-            })
-        .toList();
     return Scaffold(
-      body: Container(
-        child: Column(children: [
-//          transacton
-//              .map((e) => {
-//                    Card(
-//                      child: Text(e.title),
-//                    ),
-//                  })
-//              .toList(),
-        ]),
+      appBar: AppBar(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            child: Text("Chart"),
+          ),
+          Card(
+            elevation: 5,
+            child: Container(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextField(
+                    onChanged: (value) =>titleInput  = value,
+                    decoration: InputDecoration(labelText: "title"),
+                  ),
+                  TextField(
+                    onChanged: (value) => amountInput = value ,
+                    decoration: InputDecoration(labelText: "title"),
+                  ),
+                  FlatButton(
+                      color: Colors.grey[100],
+                      onPressed: () {
+                        print(titleInput);
+                        print(amountInput);
+                      },
+                      child: Text("Add Transaction"))
+                ],
+              ),
+            ),
+          ),
+          Column(
+            children: transacton.map((tx) {
+              return TransactonList(tx);
+            }).toList(),
+          ),
+        ],
       ),
     );
   }
