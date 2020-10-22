@@ -1,14 +1,34 @@
 import 'package:flutter/material.dart';
 
-class NewTransacton extends StatelessWidget {
+class NewTransacton extends StatefulWidget {
+  final Function _addNewTransAction;
 
-  final Function _addNewTransAction ;
   NewTransacton(this._addNewTransAction);
 
+  @override
+  _NewTransactonState createState() => _NewTransactonState();
+}
+
+class _NewTransactonState extends State<NewTransacton> {
+  String titleInput;
+
+  String amountInput;
+
+  void _submitData() {
+    print(titleInput);
+    print(amountInput);
 
 
-  String titleInput ;
-  String amountInput ;
+    if (titleInput.isEmpty && amountInput.isEmpty) {
+      return;
+    }
+
+    widget._addNewTransAction(titleInput, double.parse(amountInput));
+
+    Navigator.pop(context);
+    // or Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -19,21 +39,19 @@ class NewTransacton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
-              onChanged: (value) =>titleInput  = value,
+              onChanged: (value) => titleInput = value,
               decoration: InputDecoration(labelText: "title"),
+              onSubmitted: (_) => _submitData(),
             ),
             TextField(
-              onChanged: (value) => amountInput = value ,
+              onChanged: (value) => amountInput = value,
               decoration: InputDecoration(labelText: "title"),
+              keyboardType: TextInputType.number,
+              onSubmitted: (value)=> _submitData(),
             ),
             FlatButton(
                 color: Colors.grey[100],
-                onPressed: () {
-                  print(titleInput);
-                  print(amountInput);
-                  _addNewTransAction(titleInput ,double.parse(amountInput));
-
-                },
+                onPressed: _submitData,
                 child: Text("Add Transaction"))
           ],
         ),

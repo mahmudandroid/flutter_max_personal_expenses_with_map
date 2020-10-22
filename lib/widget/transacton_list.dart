@@ -9,8 +9,8 @@ class TransactonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _userTransacton.map((tx) {
+    return ListView.builder(
+      itemBuilder: (context, index) {
         return Card(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -19,24 +19,24 @@ class TransactonList extends StatelessWidget {
                 margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.purple,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 padding: EdgeInsets.all(5),
                 child: Text(
 // '\$'+tx.amount.toString(),
-                  '\$${tx.amount}',
+                  '\$${_userTransacton[index].amount.toStringAsFixed(2)}',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
-                      color: Colors.purple),
+                      color: Theme.of(context).primaryColor),
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    tx.title,
+                    _userTransacton[index].title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -45,7 +45,7 @@ class TransactonList extends StatelessWidget {
                   Text(
 //DateFormat('yyyy-MM-dd').format(tx.date) ,
 // DateFormat().format(tx.date) ,
-                    DateFormat.yMMMd().format(tx.date),
+                    DateFormat.yMMMd().format(_userTransacton[index].date),
                     style: TextStyle(
                       color: Colors.grey,
                     ),
@@ -56,7 +56,8 @@ class TransactonList extends StatelessWidget {
             ],
           ),
         );
-      }).toList(),
+      },
+      itemCount: _userTransacton.length,
     );
   }
 }
